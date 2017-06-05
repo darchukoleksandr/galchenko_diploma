@@ -1,0 +1,71 @@
+<h1>Інформаційна панель</h1>
+
+<div *ngIf="!team">
+    <h2>Почніть зі створення нової команди:</h2>
+    <button (click)="createNewTeam()" class="btn btn-default">Створити команду</button>
+</div>
+
+<div *ngIf="team">
+    <h3>Моя команда:</h3>
+    <table class='table table-hover'>
+        <thead>
+        <tr>
+            <th>Імя</th>
+            <th>Вид спорту</th>
+            <th colspan="2"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ team.name }}</td>
+            <td>{{ team.kindOfSport.sport }}</td>
+            <td><button class="btn btn-default btn-sm" (click)="activateUpdate()"><span class="glyphicon glyphicon-cog"></span> Налаштування</button></td>
+            <td><button class="btn btn-default btn-sm" [routerLink]="['/team', team.id]"><span class="glyphicon glyphicon-align-justify"></span> Гравці</button></td>
+        </tr>
+        </tbody>
+    </table>
+    
+    <form *ngIf="isUpdateActivated">
+        <div class="input-group">
+            
+            <span class="input-group-addon">Назва команди</span>
+            <input type="text" required class="form-control" [(ngModel)]="teamUpdate.name" [ngModelOptions]="{standalone: true}">
+
+            <span class="input-group-addon">Вид спорту</span>
+            <select required class="form-control" [(ngModel)]="teamUpdate.kindOfSport" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let sport of kindOfSports" [ngValue]="sport">
+                    {{sport.sport}}
+                </option>
+            </select>
+
+            <span class="input-group-addon"></span>
+            <input type="submit" class="form-control" (click)="updateTeam()">
+        </div>
+    </form>
+
+    <div *ngIf="joinRequests?.length === 0">
+        <h3>Запити на вступ відсутні</h3>
+    </div>
+    <div *ngIf="joinRequests?.length > 0">
+        <h3>Запити на вступ:</h3>
+        <table class='table table-hover'>
+            <thead>
+                <tr>
+                    <th>Логін</th>
+                    <th>Імя</th>
+                    <th>Прізвище</th>
+                    <th colspan="2"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let request of joinRequests" [class.success]="request.result===true" [class.danger]="request.result===false">
+                    <td>{{ request.student.userName }}</td>
+                    <td>{{ request.student.firstName }}</td>
+                    <td>{{ request.student.lastName }}</td>
+                    <td><button class="btn btn-default btn-xs" *ngIf="request.result === null" (click)="confirmRequest(request)"><span class="glyphicon glyphicon-ok"></span></button></td>
+                    <td><button class="btn btn-default btn-xs" *ngIf="request.result === null" (click)="rejectRequest(request)"><span class="glyphicon glyphicon-remove"></span></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

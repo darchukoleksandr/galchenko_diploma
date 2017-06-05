@@ -1,0 +1,20 @@
+<h1>Список тренерів</h1>
+
+<table class='table' *ngIf="coaches">
+    <thead>
+        <tr>
+            <th>E-mail</th>
+            <th>Імя</th>
+            <th>Прізвище</th>
+            <th>Команда</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let coach of coaches">
+            <td>{{ coach.userName }}</td>
+            <td>{{ coach.firstName }}</td>
+            <td>{{ coach.lastName }}</td>
+            <td *ngIf="coach.team" [routerLink]="['/team', coach.team.id]"><a>{{ coach.team.name }}</a></td>
+        </tr>
+    </tbody>
+</table>

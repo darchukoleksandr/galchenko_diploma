@@ -1,0 +1,36 @@
+<h1>Сторінка змагань</h1>
+
+<form class="form-inline" *ngIf="competitions">
+    <label>Вид спорту</label>
+    <select name="role" required [(ngModel)]="selectedSport" class="form-control" (ngModelChange)="sortBySport()">
+        <option *ngFor="let sport of sports" [value]="sport.id">
+            {{sport.sport}}
+        </option>
+    </select>
+
+    <input class="form-control" type="date" (change)="sortByDate()" required [(ngModel)]="dateFrom" [ngModelOptions]="{standalone: true}"/>
+    <input class="form-control" type="date" (change)="sortByDate()" required [(ngModel)]="dateTo" [ngModelOptions]="{standalone: true}"/>
+</form>
+
+<table class='table table-hover' *ngIf="competitions">
+    <thead>
+    <tr>
+        <th>Назва</th>
+        <th>Місце проведення</th>
+        <th>Дата</th>
+        <th>Вид спорту</th>
+        <th>Рефері</th>
+        <th>Модератор</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let competition of filteredCompetitions" [routerLink]="['/competition', competition.id]">
+        <td>{{ competition.name }}</td>
+        <td>{{ competition.place }}</td>
+        <td>{{ competition.date | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ competition.kindOfSport.sport }}</td>
+        <td>{{ competition.referee.firstName }} {{ competition.referee.lastName }}</td>
+        <td>{{ competition.moderator.firstName }} {{ competition.moderator.lastName }}</td>
+    </tr>
+    </tbody>
+</table>

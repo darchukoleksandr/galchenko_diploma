@@ -1,0 +1,109 @@
+<h1>Інформаційна панель</h1>
+
+<!--<div *ngIf="loggedUser && loggedUser.role === 'Referee'">-->
+<!--    <button (click)="createNewTeam()" class="btn btn-default">Create new competition</button>-->
+<!--</div>-->
+<div *ngIf="!selectedCompetition">
+    <h3>Мої змагання:</h3>
+    <table class='table table-hover' *ngIf="competitions">
+        <thead>
+        <tr>
+            <th>Назва</th>
+            <th>Місце проведення</th>
+            <th>Вид спорту</th>
+            <th>Дата</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let competition of competitions" (click)="selectCompetition(competition)">
+            <td>{{ competition.name }}</td>
+            <td>{{ competition.place }}</td>
+            <td>{{ competition.kindOfSport.sport }}</td>
+            <td>{{ competition.date | date: 'dd/MM/yyyy' }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="selectedCompetition">
+    <a (click)="selectCompetition(null)"><span class="glyphicon glyphicon-backward"></span> Назад до списку змагань</a>
+
+    <h4>Назва змагань:  {{ selectedCompetition.name }}</h4>
+
+    <h4>Місце проведення змагань: {{ selectedCompetition.place }}</h4>
+    <div *ngIf="!dateCheck()">
+        <h4>Змагання відбудуться: {{ selectedCompetition.date | date: 'dd/MM/yyyy' }}</h4>
+    </div>
+    <div *ngIf="dateCheck()">
+        <h4>Змагання закінчено: {{ selectedCompetition.date | date: 'dd/MM/yyyy' }}</h4>
+    </div>
+    <h4>Вид спорту: {{ selectedCompetition.kindOfSport.sport }}</h4>
+    
+    <div *ngIf="selectedCompetitionTeams?.length === 0">
+        <h2>На змагання не було вибрано жодної команди!</h2>
+    </div>
+    <div *ngIf="selectedCompetitionTeams?.length === 1">
+        <h2>На змагання була вибрана лише одна команда!</h2>
+    </div>
+    <table class='table table-hover' *ngIf="selectedCompetitionTeams && selectedCompetitionTeams?.length >= 1">
+        <thead>
+        <tr>
+            <th>Назва команди</th>
+            <th>Тренер</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let team of selectedCompetitionTeams" (click)="selectTeam(team)">
+            <td>{{ team.name }}</td>
+            <td>{{ team.coach.firstName }} {{ team.coach.lastName }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div *ngIf="selectedCompetitionTeams?.length > 1">
+            <div *ngIf="!results && dateCheck()">
+                <h2>Визначити результати:</h2> 
+
+            <div class="input-group col-lg-10"> <br/>
+                <form>
+                <div class="input-group">
+                    <span class="input-group-addon">Студент команди {{selectedCompetitionTeam.name}}</span>
+                    <select required class="form-control" [(ngModel)]="selectedCompetitionNewPoint.student" [ngModelOptions]="{standalone: true}">
+                        <option *ngFor="let student of selectedCompetitionTeam.students" [ngValue]="student">
+                            {{student.firstName}} {{student.lastName}}
+                        </option>
+                    </select>
+                    <span class="input-group-addon">Очки</span>
+                    <input type="number" required class="form-control" min="1" [(ngModel)]="selectedCompetitionNewPoint.score" [ngModelOptions]="{standalone: true}">
+                    <span class="input-group-addon"></span>
+                    <input type="submit" class="form-control" (click)="addScoreToList()">
+                </div>
+                </form>
+
+                <table class='table table-hover' *ngIf="selectedCompetitionPoints">
+                    <thead>
+                    <tr>
+                        <th>Назва команди</th>
+                        <th>Гравець</th>
+                        <th>Очки</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let point of selectedCompetitionPoints">
+                        <td>{{ point.student.team.name }}</td>
+                        <td>{{ point.student.firstName }} {{ point.student.lastName }}</td>
+                        <td>{{ point.score }}</td>
+                        <td><button class="btn btn-default btn-xs" (click)="removeFromList(point)"><span class="glyphicon glyphicon-remove"></span></button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+
+    <div *ngIf="results">
+        <h2>Результати:</h2>
+    </div>
+</div>
+</div>
+

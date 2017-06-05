@@ -1,0 +1,32 @@
+<h1>Список студентів</h1>
+
+<div class="btn-group btn-group-justified" role="group" aria-label="...">
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default" (click)="sortAll()">Всі</button>
+    </div>
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default" (click)="sortNoTeam()">Без команди</button>
+    </div>
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-default" (click)="sortTeam()">В команді</button>
+    </div>
+</div>
+
+<table class='table' *ngIf="students">
+    <thead>
+        <tr>
+            <th>E-mail</th>
+            <th>Імя</th>
+            <th>Прізвище</th>
+            <th *ngIf="showTeam">Команда</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let student of filteredStudents">
+            <td>{{ student.userName }}</td>
+            <td>{{ student.firstName }}</td>
+            <td>{{ student.lastName }}</td>
+            <td *ngIf="showTeam && student.team"><a [routerLink]="['/team', student.team.id]">{{ student.team.name }}</a></td>
+        </tr>
+    </tbody>
+</table>

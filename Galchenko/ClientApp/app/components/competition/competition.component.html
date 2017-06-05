@@ -1,0 +1,64 @@
+<div *ngIf="competition">
+    <h1>Сторінка змагань</h1>
+
+<!--    <div *ngIf="coachTeamCanJoin">-->
+    <div *ngIf="this.loggedUser && this.loggedUser.role === 'Coach' && this.loggedCoachTeam && this.loggedCoachTeam.kindOfSport?.id === this.competition.kindOfSport?.id && this.dateCheck()">
+        <button (click)="joinCompetition()" class="btn btn-default">Подати заявку на участь</button>
+    </div>
+
+    <h4>Назва змагань:  {{ competition.name }}</h4>
+
+    <!--<h4>Місце проведення змагань: <a href="https://www.google.com.ua/maps/search/{{competition.place}}">{{ competition.place }}</a></h4>-->
+    <h4>Місце проведення змагань: {{ competition.place }}<a href="https://www.google.com.ua/maps/search/{{competition.place}}"><span class="glyphicon glyphicon-map-marker"></span></a></h4>
+    <div *ngIf="dateCheck()">
+        <h4>Змагання відбудуться: {{ competition.date | date: 'dd/MM/yyyy' }}</h4>
+    </div>
+    <div *ngIf="!dateCheck()">
+        <h4>Змагання закінчено: {{ competition.date | date: 'dd/MM/yyyy' }}</h4>
+    </div>
+    <h4>Вид спорту: {{ competition.kindOfSport.sport }}</h4>
+
+    <div *ngIf="competitionTeams?.length === 0">
+        <div class="well">На змагання не було вибрано жодної команди!</div>
+    </div>
+    <div *ngIf="competitionTeams?.length === 1">
+        <div class="well">На змагання була вибрана лише одна команда!</div>
+    </div>
+    <table class='table table-hover' *ngIf="competitionTeams && competitionTeams?.length >= 1">
+        <thead>
+        <tr>
+            <th>Назва команди</th>
+            <th>Тренер</th>
+            <th *ngIf="results?.length > 0">Загально</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let team of competitionTeams" [routerLink]="['/team', team.id]">
+            <td>{{ team.name }}</td>
+            <td>{{ team.coach.firstName }} {{ team.coach.lastName }}</td>
+            <td *ngIf="results?.length > 0">{{ teamResult(team.id) }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div *ngIf="results?.length > 0">
+        <h2>Результати:</h2>
+        <table class='table table-hover'>
+            <thead>
+            <tr>
+                <th>Гравець</th>
+                <th>Команда</th>
+                <th>Очки</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let result of results">
+                <td>{{ result.student.firstName }} {{ result.student.lastName }}</td>
+                <td>{{ result.student.team.name }}</td>
+                <td>{{ result.score }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+    

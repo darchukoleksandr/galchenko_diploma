@@ -1,0 +1,82 @@
+<h1>Інформаційна панель</h1>
+
+<div *ngIf="loggedUser">
+    <div *ngIf="!showMyPoints">
+        <div *ngIf="!loggedUser.team">
+            <h2>Почніть з пошуку команди:</h2>
+            <button [routerLink]="['/teams']" class="btn btn-default">Пошук команди</button>
+        </div>
+        <button *ngIf="myPoints" (click)="showPoints(true)" class="btn btn-default">Мої результати</button>
+
+        <button *ngIf="loggedUser.team" (click)="leaveTeam()" class="btn btn-default">Покинути команду</button>
+    
+        <div *ngIf="loggedUser.team">
+        
+            <h3>Моя команда:</h3>
+            <div class="well">
+                Назва: {{loggedUser.team.name}}<br/>
+                <!--            Вид спорту: {{loggedUser.team.kindOfSport.sport}}<br />-->
+                <!--            Тренер: {{loggedUser.team.coach.firstName}} {{loggedUser.team.coach.lastName}}-->
+            </div>
+            <table class='table table-hover'>
+                <thead>
+                <tr>
+                    <th>Логін</th>
+                    <th>Імя</th>
+                    <th>Прізвище</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let player of loggedUser.team.students">
+                    <td>{{ player.userName }}</td>
+                    <td>{{ player.firstName }}</td>
+                    <td>{{ player.lastName }}</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div *ngIf="competitions">
+                <h3>Найближчі змагання:</h3>
+                <table class='table table-hover'>
+                    <thead>
+                    <tr>
+                        <th>Назва змагання</th>
+                        <th>Місце проведення</th>
+                        <th>Дата проведення</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let request of competitions" [routerLink]="['/competition', request.competition.id]">
+                        <td>{{ request.competition.name }}</td>
+                        <td>{{ request.competition.place }}</td>
+                        <td>{{ request.competition.date | date: 'dd/MM/yyyy' }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div *ngIf="showMyPoints">
+        <a (click)="showPoints(false)"><span class="glyphicon glyphicon-backward"></span> Назад до інформаційної панелі</a>
+        <h3>Мої результати:</h3>
+        <span>Рейтинговий бал: {{studentRating}}</span>
+        <table class='table table-hover' *ngIf="myPoints">
+            <thead>
+            <tr>
+                <th>Назва змагання</th>
+                <th>Місце проведення</th>
+                <th>Голи</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let point of myPoints" [routerLink]="['/competition', point.competition.id]">
+                <td>{{ point.competition.name }}</td>
+                <td>{{ point.competition.date | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ point.score }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

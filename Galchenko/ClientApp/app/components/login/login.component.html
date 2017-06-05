@@ -1,0 +1,27 @@
+<form class="form-horizontal" (ngSubmit)="login()" #loginForm="ngForm" method="post">
+    <h1>Авторизація.</h1>
+    <hr />
+    <div class="form-group">
+        <label class="col-md-2 control-label">Логін</label>
+        <div class="col-md-6">
+            <input class="form-control" type="text" required [(ngModel)]="result.userName" id="userName" name="userName" [ngModelOptions]="{standalone: true}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">Пароль</label>
+        <div class="col-md-6">
+            <input class="form-control" type="password" required [(ngModel)]="result.password" id="password" name="password" [ngModelOptions]="{standalone: true}"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">Запамятати мене</label>
+        <div class="col-md-6">
+			<input type="checkbox" aria-label="..." style="width: 30px; height: 30px;" [(ngModel)]="result.rememberMe" [ngModelOptions]="{standalone: true}">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-4 col-md-10">
+            <button type="submit" class="btn btn-default">Авторизація</button>
+        </div>
+    </div>
+</form>

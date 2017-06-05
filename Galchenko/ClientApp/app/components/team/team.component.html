@@ -1,0 +1,35 @@
+<h1>Команда {{team.name}}</h1>
+
+
+<div *ngIf="isStudent">
+    <button (click)="joinRequest()" class="btn btn-default" *ngIf="!isStudentInTeam">Відправити запит на вступ</button>
+</div>
+
+<div *ngIf="team?.students?.length === 0">
+    <h3>В команді поки-що немає гравців.</h3>
+</div>
+
+<div *ngIf="team && team?.students?.length !== 0">
+    <h3>Список гравців:</h3>
+    <table class='table table-hover'>
+        <thead>
+        <tr>
+            <th>Логін</th>
+            <th>Імя</th>
+            <th>Прізвище</th>
+<!--            <th>Рейтинг</th>-->
+            <th *ngIf="isUserTeamCoach"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let player of team.students">
+            <td>{{ player.userName }}</td>
+            <td>{{ player.firstName }}</td>
+            <td>{{ player.lastName }}</td>
+<!--            <td>{{ player.rating }}</td>-->
+            <td *ngIf="isUserTeamCoach"><button class="btn btn-default btn-sm" (click)="expelPlayer(player)"><span class="glyphicon glyphicon-remove"></span> Відрахувати з команди</button></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
