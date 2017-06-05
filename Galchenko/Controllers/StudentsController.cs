@@ -45,9 +45,6 @@ namespace Galchenko.Controllers
                     FirstName = student.ApplicationUser.FirstName,
                     LastName = student.ApplicationUser.LastName,
                     UserName = student.ApplicationUser.Email,
-//                    Team = new TeamViewModel
-//                    {
-//                    }
                 };
             });
 
@@ -79,13 +76,6 @@ namespace Galchenko.Controllers
                         Id = result.Team.Id,
                         KindOfSport = result.Team.KindOfSport,
                         Name = result.Team.Name,
-//                        Coach = new CoachViewModel
-//                        {
-//                            Id = result.Team.Coach.ApplicationUserId,
-//                            UserName = result.Team.Coach.ApplicationUser.UserName,
-//                            FirstName = result.Team.Coach.ApplicationUser.FirstName,
-//                            LastName = result.Team.Coach.ApplicationUser.LastName
-//                        },
                         Students = result.Team.Students.Select(student => new StudentViewModel
                         {
                             Id = student.ApplicationUserId,

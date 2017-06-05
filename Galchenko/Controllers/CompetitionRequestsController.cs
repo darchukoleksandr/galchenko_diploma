@@ -14,15 +14,12 @@ namespace Galchenko.Controllers
     {
         private readonly ApplicationDbContext _dbContext = new ApplicationDbContext();
         private readonly UserManager<ApplicationUser> _userManager;
-        //        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public CompetitionRequestsController(
             UserManager<ApplicationUser> userManager
-            //            SignInManager<ApplicationUser> signInManager,
         )
         {
             _userManager = userManager;
-            //            _signInManager = signInManager;
         }
 
         [HttpPost]

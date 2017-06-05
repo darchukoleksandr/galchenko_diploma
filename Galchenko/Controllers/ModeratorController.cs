@@ -23,27 +23,6 @@ namespace Galchenko.Controllers
             _signInManager = signInManager;
         }
 
-//        [HttpGet("[action]")]
-//        public IEnumerable<CoachViewModel> All()
-//        {
-//            return _dbContext.Coaches
-//                .Include(coach => coach.KindOfSport)
-//                .Include(coach => coach.ApplicationUser)
-//                .Select(coach => new CoachViewModel
-//                {
-//                    Id = coach.ApplicationUserId,
-//                    KindOfSport = coach.KindOfSport,
-//                    UserName = coach.ApplicationUser.UserName,
-//                    FirstName = coach.ApplicationUser.FirstName,
-//                    LastName = coach.ApplicationUser.LastName,
-//                    Team = new TeamViewModel
-//                    {
-//                        Id = coach.Team.Id,
-//                        Name = coach.Team.Name
-//                    }
-//                }).ToArray();
-//        }
-
         [HttpGet("{id}")]
         public ModeratorViewModel ModeratorFullProfile([FromRoute] string id)
         {

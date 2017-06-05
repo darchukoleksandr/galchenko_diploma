@@ -16,7 +16,6 @@ namespace Galchenko.Controllers
         public IEnumerable<RefereeViewModel> All()
         {
             return _dbContext.Referees
-//                .Include(referee => referee.KindOfSport)
                 .Include(referee => referee.ApplicationUser)
                 .Select(referee => new RefereeViewModel
                 {
@@ -24,27 +23,8 @@ namespace Galchenko.Controllers
                     FirstName = referee.ApplicationUser.FirstName,
                     LastName = referee.ApplicationUser.LastName,
                     UserName = referee.ApplicationUser.Email,
-//                    KindOfSport = referee.KindOfSport
                 })
                 .ToArray();
         }
-
-//        [HttpGet("sport")]
-//        public IEnumerable<RefereeViewModel> BySportType([FromBody] KindOfSport sport)
-//        {
-//            return _dbContext.Referees
-//                .Include(referee => referee.KindOfSport)
-//                .Include(referee => referee.ApplicationUser)
-//                .Where(referee => referee.KindOfSport == sport)
-//                .Select(referee => new RefereeViewModel
-//                {
-//                    Id = referee.ApplicationUserId,
-//                    FirstName = referee.ApplicationUser.FirstName,
-//                    LastName = referee.ApplicationUser.LastName,
-//                    UserName = referee.ApplicationUser.Email,
-//                    KindOfSport = referee.KindOfSport
-//                })
-//                .ToArray();
-//        }
     }
 }
